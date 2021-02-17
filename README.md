@@ -25,6 +25,8 @@ Depending on the experiment you may be interested in disabling prefetchers.
 
 One needs an OpenSSL built with the no-asm and the no-hw flags install in ~/openssl (the path is in aes-t-tables/cargo.sh and can be changed).
 
+You the need to extract the T-table addresses, this can be done using `nm libcrypto.so | "grep Te[0-4]"`, and update those in aes-t-tables/src/main.rs
+
 You can then run `./cargo.sh run --release > result.log`
 
 ## Two thread calibration set-up and usage
@@ -40,7 +42,7 @@ Various scripts are also included that have been used to parse the log.
 
 The python scripts requires an environment (such as a virtual env) with the packages in cache_utils/requirements.txt
 
-## covert_channel_benchmark
+## `covert_channel_benchmark`
 
 Do the general set-up and then run `cargo run --release | tee results.log`
 
@@ -48,10 +50,10 @@ Do the general set-up and then run `cargo run --release | tee results.log`
 # Crate documentation
 
 - cpuid is a small crate that handles CPU microarchitecture indentification and provides info about what is known about it
-- cache_utils contains utilities related to cache attacks
-- cache_side_channel defines the interface cache side channels have to implement
-- basic_timing_cache_channel contains generic implementations of Naive and Optimised cache side channels, that just require providing the actual operation used
-- flush_flush and flush_reload are tiny crates that use basic_timing_cache_channel to export Flush+Flush and Flush+Reload primitives
-- turn_lock is the synchronisation primitive used by cache utils and the covert_channel_evaluation.
-- covert_channel_evaluation is a generic implementation of a covert_channel benchmark
-- covert_channel_benchmark calls the previous implementation over the 3 channels.
+- `cache_utils` contains utilities related to cache attacks
+- `cache_side_channel` defines the interface cache side channels have to implement
+- `basic_timing_cache_channel` contains generic implementations of Naive and Optimised cache side channels, that just require providing the actual operation used
+- `flush_flush` and `flush_reload` are tiny crates that use `basic_timing_cache_channel` to export Flush+Flush and Flush+Reload primitives
+- `turn_lock` is the synchronisation primitive used by `cache_utils` and the `covert_channel_evaluation`.
+- `covert_channel_evaluation` is a generic implementation of a `covert_channel` benchmark
+- `covert_channel_benchmark` calls the previous implementation over the 3 channels.

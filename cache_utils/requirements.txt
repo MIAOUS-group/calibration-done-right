@@ -1,0 +1,8 @@
+pandas==1.0.3
+seaborn~=0.11.0
+wquantiles==0.5
+
+matplotlib~=3.2.1
+numpy~=1.18.2
+gmpy2~=2.0.8
+scipy~=1.4.1
