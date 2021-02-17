@@ -1,0 +1,14 @@
+[package]
+name = "flush_reload"
+version = "0.1.0"
+authors = ["GuillaumeDIDIER <guillaume.didier95@hotmail.fr>"]
+edition = "2018"
+
+# See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
+
+[dependencies]
+cache_utils = { path = "../cache_utils" }
+cache_side_channel = { path = "../cache_side_channel" }
+covert_channels_evaluation = {path = "../covert_channels_evaluation"}
+nix = "0.18.0"
+basic_timing_cache_channel = { path = "../basic_timing_cache_channel" }

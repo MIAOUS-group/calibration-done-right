@@ -1,0 +1,9 @@
+Core 2 :
+  MSR 0x1A0 [9] HW prfetcher disable
+  MSR 0x1A0 [19] Adjacent Cache line HW prfetcher disable
+  MSR 0x1A0 [37] DCU HW prfetcher disable
+  MSR 0x1A0 [39] IP HW prfetcher disable
+
+Sandy Bridge
+  MSR 0x1A4 (420) [0,1,2,3] various prefetcher disable
+
