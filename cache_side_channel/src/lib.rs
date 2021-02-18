@@ -14,6 +14,7 @@ pub enum CacheStatus {
     Miss,
 }
 
+// Error handling is work in progress
 #[derive(Debug, PartialEq, Eq, Clone, Copy)]
 pub enum ChannelFatalError {
     Oops,
@@ -49,7 +50,6 @@ pub fn set_affinity(cpu_set: &CpuSet) -> CpuSet {
 
 pub trait SingleAddrCacheSideChannel: CoreSpec + Debug {
     type Handle: ChannelHandle;
-    //type SingleChannelFatalError: Debug;
     /// # Safety
     ///
     /// addr must be a valid pointer to read.
@@ -129,13 +129,5 @@ impl<T: MultipleAddrCacheSideChannel> SingleAddrCacheSideChannel for T {
         addresses: impl IntoIterator<Item = *const u8> + Clone,
     ) -> Result<Vec<Self::Handle>, ChannelFatalError> {
         unsafe { self.calibrate(addresses) }
-    }
-}
-
-#[cfg(test)]
-mod tests {
-    #[test]
-    fn it_works() {
-        assert_eq!(2 + 2, 4);
     }
 }

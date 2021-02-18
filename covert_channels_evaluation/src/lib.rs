@@ -7,13 +7,10 @@ const PAGE_SIZE: usize = 1 << 12; // FIXME Magic
 // design docs
 
 // Build a channel using x pages + one synchronisation primitive.
-
-// F+R only use one line per page
-// F+F should use several line per page
-// Each page has 1<<12 bytes / 1<<6 bytes per line, hence 64 lines (or 6 bits of info).
+// One line per page
 
 // General structure : two threads, a transmitter and a reciever. Transmitter generates bytes, Reciever reads bytes, then on join compare results for accuracy.
-// Alos time in order to determine duration, in rdtsc and seconds.
+// Also time in order to determine duration, in rdtsc and seconds.
 
 use bit_field::BitField;
 use cache_side_channel::{restore_affinity, set_affinity, CoreSpec};
@@ -27,13 +24,6 @@ use std::fmt::Debug;
 use std::sync::Arc;
 use std::thread;
 
-/*  TODO : replace page with a handle type,
-    require exclusive handle access,
-    Handle protected by the turn lock
-*/
-/**
- * Safety considerations : Not ensure thread safety, need proper locking as needed.
- */
 pub trait CovertChannel: Send + Sync + CoreSpec + Debug {
     type Handle;
     const BIT_PER_PAGE: usize;
@@ -251,11 +241,6 @@ pub fn benchmark_channel<T: 'static + Send + CovertChannel>(
 #[cfg(test)]
 mod tests {
     use crate::BitIterator;
-
-    #[test]
-    fn it_works() {
-        assert_eq!(2 + 2, 4);
-    }
 
     #[test]
     fn test_bit_vec() {

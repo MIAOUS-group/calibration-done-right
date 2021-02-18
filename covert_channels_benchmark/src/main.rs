@@ -171,6 +171,7 @@ fn main() {
             old,
         );
 
+        // This one runs a lengthy calibration on each new channel construction : reduced number of iterations
         let ff = run_benchmark(
             "Better F+F",
             |i, j| {

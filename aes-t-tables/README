@@ -1,5 +1,5 @@
 You need to build openssl with no-asm no-hw options. Also adjust the install path in ./cargo.sh
 
-You then need to input the correct Te adresses in main.rs, and run using ./cargo.sh (instead of cargo)
+You then need to input the correct Te addresses in main.rs, and run using ./cargo.sh (instead of cargo)
 
 The script sets the environment to pick up openssl reliably.

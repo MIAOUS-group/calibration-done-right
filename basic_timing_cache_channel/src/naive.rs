@@ -11,6 +11,7 @@ use nix::unistd::Pid;
 use std::fmt::Debug;
 
 // Parameters required : The threshold.
+
 #[derive(Debug)]
 pub struct NaiveTimingChannel<T: TimingChannelPrimitives> {
     threshold: Threshold,
@@ -169,6 +170,5 @@ impl<T: TimingChannelPrimitives> SingleAddrCacheSideChannel for NaiveTimingChann
     }
 }
 
-// Include a helper code to get global threshold model ?
-
+// Include a helper code to get global threshold model
 // TODO

@@ -7,8 +7,8 @@ edition = "2018"
 # See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
 
 [dependencies]
-polling_serial = { path = "../polling_serial", optional = true }
-vga_buffer = { path = "../vga_buffer", optional = true }
+#polling_serial = { path = "../polling_serial", optional = true }
+#vga_buffer = { path = "../vga_buffer", optional = true }
 cpuid = { path = "../cpuid", default-features = false }
 x86_64 = "0.12.2"
 static_assertions = "1.1.0"
@@ -17,12 +17,12 @@ atomic = { version = "0.5.0" }
 
 nix = { version = "0.18.0", optional = true }
 libc = { version = "0.2.77", optional = true }
-hashbrown = { version = "0.9.1", optional = true }
+#hashbrown = { version = "0.9.1", optional = true }
 turn_lock = { path = "../turn_lock", optional = true}
 
 [features]
 use_std = ["nix", "itertools/use_std", "libc", "cpuid/use_std", "turn_lock"]
-no_std = ["polling_serial", "vga_buffer", "hashbrown"]
+#no_std = ["polling_serial", "vga_buffer", "hashbrown"]
 
 default = ["use_std"]
 

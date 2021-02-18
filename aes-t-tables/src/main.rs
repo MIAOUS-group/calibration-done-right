@@ -9,6 +9,10 @@ use nix::sched::sched_setaffinity;
 use nix::unistd::Pid;
 use std::path::Path;
 
+/*
+This program runs the aes t-table attack for 2 different keys and 3 different side channels.
+ */
+
 const KEY1: [u8; 32] = [0; 32];
 
 const KEY2: [u8; 32] = [

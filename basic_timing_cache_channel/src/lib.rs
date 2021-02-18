@@ -1,15 +1,10 @@
 #![feature(unsafe_block_in_unsafe_fn)]
 #![deny(unsafe_op_in_unsafe_fn)]
 
-// TODO
-
 // Common logic for the ability to calibrate along slices
-// Core issues should be orthogonal
-// Extend to multithread ?
 
 // Should be used by F+F and non Naive F+R
 
-//use crate::naive::NaiveTimingChannelHandle;
 use cache_side_channel::SideChannelError::AddressNotReady;
 use cache_side_channel::{
     CacheStatus, ChannelFatalError, ChannelHandle, CoreSpec, MultipleAddrCacheSideChannel,
@@ -35,10 +30,15 @@ use std::ptr::slice_from_raw_parts;
 
 pub mod naive;
 
+// The trait that needs to be implemented by a primitive used to make a timing based channel
 pub trait TimingChannelPrimitives: Debug + Send + Sync {
+    // Takes a target address and returns a time measurement.
     unsafe fn attack(&self, addr: *const u8) -> u64;
 }
 
+// This handle is what a user of the channel uses to represent a target page / cache line
+// It notably includes the info required to determine the Hit / Miss result in O(1)
+// Calibration epoch is used to invalidate handles after recalibration becomes required.
 pub struct TopologyAwareTimingChannelHandle {
     threshold: Threshold,
     vpn: VPN,
@@ -47,6 +47,7 @@ pub struct TopologyAwareTimingChannelHandle {
     calibration_epoch: usize,
 }
 
+// Covert channel handles should not be mixed with normal handle, but are the same internally
 pub struct CovertChannelHandle<T: MultipleAddrCacheSideChannel>(T::Handle);
 
 impl ChannelHandle for TopologyAwareTimingChannelHandle {
@@ -55,6 +56,7 @@ impl ChannelHandle for TopologyAwareTimingChannelHandle {
     }
 }
 
+// Error handling is still work in progress.
 #[derive(Debug)]
 pub enum TopologyAwareError {
     NoSlicing,
@@ -62,14 +64,15 @@ pub enum TopologyAwareError {
     NeedRecalibration,
 }
 
+// The channel itself, parametrized with a primitive
+// Limitation : the channel currently requires knowledge of the hashig functions (from cpuid crate)
 pub struct TopologyAwareTimingChannel<T: TimingChannelPrimitives> {
-    // TODO
     slicing: CacheSlicing, // TODO : include fallback option (with per address thresholds ?)
     main_core: usize,      // aka attacker
     helper_core: usize,    // aka victim
     t: T,
     thresholds: HashMap<SP, ThresholdError>,
-    addresses: HashSet<*const u8>,
+    addresses: HashSet<*const u8>,  // Used to prevent multiple handles to the same address
     preferred_address: HashMap<VPN, *const u8>,
     calibration_epoch: usize,
 }
@@ -473,7 +476,7 @@ impl<T: TimingChannelPrimitives> MultipleAddrCacheSideChannel for TopologyAwareT
     }
 
     fn victim(&mut self, operation: &dyn Fn()) {
-        operation(); // TODO use a different helper core ?
+        operation();
     }
 
     unsafe fn calibrate(
@@ -684,41 +687,5 @@ impl<T: MultipleAddrCacheSideChannel> SingleAddrCacheSideChannel for SingleChann
         addresses: impl IntoIterator<Item = *const u8> + Clone,
     ) -> Result<Vec<Self::Handle>, ChannelFatalError> {
         unsafe { self.inner.calibrate_single(addresses) }
-    }
-}
-
-/*
-impl<T: MultipleAddrCacheSideChannel + Sync + Send> CovertChannel for SingleChannel<T> {
-    type Handle = CovertChannelHandle<T>;
-    const BIT_PER_PAGE: usize = 1;
-
-    unsafe fn transmit<'a>(&self, handle: &mut Self::Handle, bits: &mut BitIterator<'a>) {
-        unimplemented!()
-    }
-
-    unsafe fn receive(&self, handle: &mut Self::Handle) -> Vec<bool> {
-        let r = unsafe { self.test_single(handle) };
-        match r {
-            Err(e) => panic!("{:?}", e),
-            Ok(status_vec) => {
-                assert_eq!(status_vec.len(), 1);
-                let received = status_vec[0].1 == Hit;
-                //println!("Received {} on page {:p}", received, page);
-                return vec![received];
-            }
-        }
-    }
-
-    unsafe fn ready_page(&mut self, page: *const u8) -> Self::Handle {
-        unimplemented!()
-    }
-}
-*/
-
-#[cfg(test)]
-mod tests {
-    #[test]
-    fn it_works() {
-        assert_eq!(2 + 2, 4);
     }
 }

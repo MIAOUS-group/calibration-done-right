@@ -8,8 +8,6 @@ extern crate alloc;
 use alloc::vec::Vec;
 use core::arch::x86_64;
 
-//#[cfg(feature = "no_std")]
-//use cstr_core::{CStr, CString};
 
 use crate::CPUVendor::{Intel, Unknown};
 use crate::MicroArchitecture::{
@@ -18,8 +16,6 @@ use crate::MicroArchitecture::{
     KnightsMill, Nehalem, NetBurst, Penryn, PentiumM, Saltwell, SandyBridge, Silvermont, Skylake,
     SkylakeServer, Tremont, Westmere, Yonah, P5, P6,
 };
-//#[cfg(feature = "std")]
-//use std::ffi::{CStr, CString};
 
 #[derive(Debug, Eq, PartialEq)]
 pub enum CPUVendor {
@@ -31,17 +27,13 @@ pub enum CPUVendor {
 
 impl CPUVendor {
     pub fn get_cpu_vendor() -> CPUVendor {
-        // if has cpuid if  x86_64::__cp
         if true {
             let r = unsafe { x86_64::__cpuid(0) };
             CPUVendor::decode_cpu_vendor(r)
 
-        //let feature_string = (r.ebx, r.ecx, r.edx);
-        //CPUVendor::Unknown
         } else {
             CPUVendor::None
         }
-        // else
     }
     pub fn decode_cpu_vendor(cpuid_result: x86_64::CpuidResult) -> CPUVendor {
         let feature_string = [cpuid_result.ebx, cpuid_result.edx, cpuid_result.ecx]

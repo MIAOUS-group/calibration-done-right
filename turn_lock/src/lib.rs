@@ -4,6 +4,12 @@ use std::ops::{Deref, DerefMut};
 use std::sync::atomic::{spin_loop_hint, AtomicUsize, Ordering};
 use std::sync::Arc;
 
+/**
+This synchronisation primitive is used to make two (or more) thread alternate turns,
+it protects in an idiomatic rust fashion access to a piece of data that can only be accessed
+during the threads "turn", which ensures exclusive access.
+*/
+
 // FIXME There may be significant unsafety if wait is called twice ?
 // Add some extra mutual exclusion ?
 
@@ -141,11 +147,6 @@ unsafe impl<T> Send for TurnHandle<T> {}
 #[cfg(test)]
 mod tests {
     use crate::TurnHandle;
-
-    #[test]
-    fn it_works() {
-        assert_eq!(2 + 2, 4);
-    }
 
     #[test]
     fn three_turns() {

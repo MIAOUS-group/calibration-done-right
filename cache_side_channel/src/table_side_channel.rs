@@ -22,7 +22,6 @@ impl TableAttackResult {
 }
 
 pub trait TableCacheSideChannel<Handle: ChannelHandle>: CoreSpec + Debug {
-    //type ChannelFatalError: Debug;
     /// # Safety
     ///
     /// addresses must contain only valid pointers to read.
@@ -50,7 +49,6 @@ impl<T: SingleAddrCacheSideChannel> TableCacheSideChannel<T::Handle> for T {
     ) -> Result<Vec<T::Handle>, ChannelFatalError> {
         unsafe { self.calibrate_single(addresses) }
     }
-    //type ChannelFatalError = T::SingleChannelFatalError;
 
     default unsafe fn attack<'a, 'b, 'c, 'd>(
         &'a mut self,
@@ -138,7 +136,6 @@ impl<T: MultipleAddrCacheSideChannel> TableCacheSideChannel<T::Handle> for T {
     ) -> Result<Vec<T::Handle>, ChannelFatalError> {
         unsafe { self.calibrate(addresses) }
     }
-    //type ChannelFatalError = T::MultipleChannelFatalError;
 
     /// # Safety
     ///

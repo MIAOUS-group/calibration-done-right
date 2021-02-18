@@ -3,10 +3,4 @@
 
 pub mod naive;
 
-#[cfg(test)]
-mod tests {
-    #[test]
-    fn it_works() {
-        assert_eq!(2 + 2, 4);
-    }
-}
+// No non naïve F+R has been implemented yet, but it could be done easily.

@@ -21,11 +21,3 @@ impl TimingChannelPrimitives for FFPrimitives {
 pub type FlushAndFlush = TopologyAwareTimingChannel<FFPrimitives>;
 
 pub type SingleFlushAndFlush = SingleChannel<FlushAndFlush>;
-
-#[cfg(test)]
-mod tests {
-    #[test]
-    fn it_works() {
-        assert_eq!(2 + 2, 4);
-    }
-}
