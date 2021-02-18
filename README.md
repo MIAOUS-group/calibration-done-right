@@ -21,14 +21,6 @@ One should disable turbo boost and other source of idle frequency scaling
 
 Depending on the experiment you may be interested in disabling prefetchers.
 
-## AES T-table set-up and usage
-
-One needs an OpenSSL built with the no-asm and the no-hw flags install in ~/openssl (the path is in aes-t-tables/cargo.sh and can be changed).
-
-You the need to extract the T-table addresses, this can be done using `nm libcrypto.so | "grep Te[0-4]"`, and update those in aes-t-tables/src/main.rs
-
-You can then run `./cargo.sh run --release > result.log`
-
 ## Two thread calibration set-up and usage
 
 In addition to the general set-up you need to enable 2MB hugepage and ensure at least one is available.
@@ -40,16 +32,27 @@ Various scripts are also included that have been used to parse the log.
 `analyse.sh` -> `analyse_csv.py` -> `analyse_median.py` Is used to analyse the timing histograms
 `extract_analysis_csv.sh` Is used to extract the attacker model results.
 
-The python scripts requires an environment (such as a virtual env) with the packages in cache_utils/requirements.txt
+The python scripts requires an environment (such as a virtual env) with the packages in `cache_utils/requirements.txt`
 
-## `covert_channel_benchmark`
+## AES T-table set-up and usage
 
-Do the general set-up and then run `cargo run --release | tee results.log`
+One needs an OpenSSL built with the no-asm and the no-hw flags install in ~/openssl (the path is in aes-t-tables/cargo.sh and can be changed).
+
+You the need to extract the T-table addresses, this can be done using `nm libcrypto.so | "grep Te[0-4]"`, and update those in aes-t-tables/src/main.rs
+
+You'll also want to update the thresholds in main.rs using the results from the calibration.
+
+You can then run `./cargo.sh run --release > result.log`
+
+
+## Covert Channel benchmark
+
+Do the general set-up, update the thresholds for Naive channels in main.rs and then run `cargo run --release | tee results.log`
 
 
 # Crate documentation
 
-- cpuid is a small crate that handles CPU microarchitecture indentification and provides info about what is known about it
+- `cpuid` is a small crate that handles CPU microarchitecture indentification and provides info about what is known about it
 - `cache_utils` contains utilities related to cache attacks
 - `cache_side_channel` defines the interface cache side channels have to implement
 - `basic_timing_cache_channel` contains generic implementations of Naive and Optimised cache side channels, that just require providing the actual operation used
