@@ -9,7 +9,9 @@ There are three crates with binaries providing results :
 and analyses the results to provide error rate predictions in various attacker models
 - **covert_channel_beanchmark** is the crate that runs covert channel benchmarks on the various covert channels
 
-The code presented runs under Fedora 31, and can also be made run on Ubuntu 20.04 LTS with minor tweaks
+The code presented runs under Fedora 30, and can also be made run on Ubuntu 18.04 LTS with minor tweaks
+
+(Notably lib cpupower may also be called libcpufreq)
 
 # Usage
 
