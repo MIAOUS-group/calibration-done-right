@@ -11,7 +11,7 @@ and analyses the results to provide error rate predictions in various attacker m
 
 The code presented runs under Fedora 30, and can also be made run on Ubuntu 18.04 LTS with minor tweaks
 
-(Notably lib cpupower may also be called libcpufreq)
+(Notably lib cpupower may also be called lib cpufreq)
 
 # Usage
 
