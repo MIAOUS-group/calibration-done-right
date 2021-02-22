@@ -1,5 +1,5 @@
 # calibration-done-right
-Public code for the calibration done right paper
+Public code for the "calibration done right" paper
 
 The code base is written entirely in rust.
 
