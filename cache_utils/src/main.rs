@@ -1,3 +1,8 @@
+// SPDX-FileCopyrightText: 2021 Guillaume DIDIER
+//
+// SPDX-License-Identifier: Apache-2.0
+// SPDX-License-Identifier: MIT
+
 // TODO create a nice program that can run on a system and will do the calibration.
 // Calibration has to be sequential
 // Will pin on each core one after the other

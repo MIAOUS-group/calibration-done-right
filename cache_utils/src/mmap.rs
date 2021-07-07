@@ -1,5 +1,10 @@
 #![cfg(feature = "use_std")]
 
+// SPDX-FileCopyrightText: 2021 Guillaume DIDIER
+//
+// SPDX-License-Identifier: Apache-2.0
+// SPDX-License-Identifier: MIT
+
 use core::borrow::{Borrow, BorrowMut};
 use core::ffi::c_void;
 use core::mem::size_of;

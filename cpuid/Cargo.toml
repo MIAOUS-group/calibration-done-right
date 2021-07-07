@@ -1,8 +1,14 @@
+# SPDX-FileCopyrightText: 2021 Guillaume DIDIER
+#
+# SPDX-License-Identifier: Apache-2.0
+# SPDX-License-Identifier: MIT
+
 [package]
 name = "cpuid"
 version = "0.1.0"
 authors = ["GuillaumeDIDIER <guillaume.didier95@hotmail.fr>"]
 edition = "2018"
+license = "MIT"
 
 # See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
 

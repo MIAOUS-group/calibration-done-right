@@ -2,6 +2,11 @@
 #![feature(ptr_internals)]
 #![allow(clippy::missing_safety_doc)]
 
+// SPDX-FileCopyrightText: 2021 Guillaume DIDIER
+//
+// SPDX-License-Identifier: Apache-2.0
+// SPDX-License-Identifier: MIT
+
 use static_assertions::assert_cfg;
 
 assert_cfg!(

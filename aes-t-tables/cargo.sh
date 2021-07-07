@@ -1,3 +1,8 @@
+# SPDX-FileCopyrightText: 2021 Guillaume DIDIER
+#
+# SPDX-License-Identifier: Apache-2.0
+# SPDX-License-Identifier: MIT
+
 #/bin/bash
 
 # Change this to the correct openssl installation path

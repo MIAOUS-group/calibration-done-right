@@ -1,3 +1,8 @@
+// SPDX-FileCopyrightText: 2021 Guillaume DIDIER
+//
+// SPDX-License-Identifier: Apache-2.0
+// SPDX-License-Identifier: MIT
+
 /// Stuff to do in here :
 /// This module is meant to compute and return info about the caching structure
 /// Should include if needed the work for reverse engineering L3 complex addressing

@@ -1,3 +1,8 @@
+// SPDX-FileCopyrightText: 2021 Guillaume DIDIER
+//
+// SPDX-License-Identifier: Apache-2.0
+// SPDX-License-Identifier: MIT
+
 use x86_64::registers::model_specific::Msr;
 
 use crate::calibration::only_flush;

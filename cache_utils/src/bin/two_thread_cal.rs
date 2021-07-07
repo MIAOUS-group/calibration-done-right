@@ -1,3 +1,8 @@
+// SPDX-FileCopyrightText: 2021 Guillaume DIDIER
+//
+// SPDX-License-Identifier: Apache-2.0
+// SPDX-License-Identifier: MIT
+
 use cache_utils::calibration::{
     accumulate, calibrate_fixed_freq_2_thread, calibration_result_to_ASVP, flush_and_reload,
     get_cache_slicing, load_and_flush, map_values, only_flush, only_reload, reduce,

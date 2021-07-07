@@ -1,3 +1,8 @@
+// SPDX-FileCopyrightText: 2021 Guillaume DIDIER
+//
+// SPDX-License-Identifier: Apache-2.0
+// SPDX-License-Identifier: MIT
+
 use crate::calibration::Verbosity::{RawResult, Thresholds};
 use crate::calibration::{
     get_cache_slicing, get_vpn, CalibrateResult, CalibrationOptions, HashMap, ASVP,

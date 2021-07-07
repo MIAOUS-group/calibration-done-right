@@ -1,5 +1,10 @@
 #![cfg_attr(not(feature = "use_std"), no_std)]
 
+// SPDX-FileCopyrightText: 2021 Guillaume DIDIER
+//
+// SPDX-License-Identifier: Apache-2.0
+// SPDX-License-Identifier: MIT
+
 // TODO import x86 or x86_64
 // TODO no_std
 

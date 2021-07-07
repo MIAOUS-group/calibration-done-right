@@ -1,5 +1,10 @@
 #![allow(clippy::missing_safety_doc)]
 
+// SPDX-FileCopyrightText: 2021 Guillaume DIDIER
+//
+// SPDX-License-Identifier: Apache-2.0
+// SPDX-License-Identifier: MIT
+
 use crate::complex_addressing::{cache_slicing, CacheSlicing};
 use crate::{flush, maccess, rdtsc_fence};
 

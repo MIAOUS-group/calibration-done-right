@@ -1,3 +1,8 @@
+# SPDX-FileCopyrightText: 2021 Guillaume DIDIER
+#
+# SPDX-License-Identifier: Apache-2.0
+# SPDX-License-Identifier: MIT
+
 # For citron vert or Cyber cobaye - run with sudo
 # disable prefetchers
 wrmsr -a 420 15
