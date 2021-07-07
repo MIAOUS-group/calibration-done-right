@@ -62,3 +62,7 @@ Do the general set-up, update the thresholds for Naive channels in main.rs and t
 - `turn_lock` is the synchronisation primitive used by `cache_utils` and the `covert_channel_evaluation`.
 - `covert_channel_evaluation` is a generic implementation of a `covert_channel` benchmark
 - `covert_channel_benchmark` calls the previous implementation over the 3 channels.
+
+# rust version
+
+Known good nightly : rustc 1.54.0-nightly (eab201df7 2021-06-09)
