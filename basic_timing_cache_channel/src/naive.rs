@@ -6,7 +6,8 @@ use cache_side_channel::{
 use cache_utils::calibration::{get_vpn, only_flush, only_reload, HashMap, Threshold, VPN};
 use cache_utils::flush;
 use covert_channels_evaluation::{BitIterator, CovertChannel};
-use nix::sched::{sched_getaffinity, CpuSet};
+use nix::sched::sched_getaffinity;
+use nix::sched::CpuSet;
 use nix::unistd::Pid;
 use std::fmt::Debug;
 
@@ -103,10 +104,14 @@ impl<T: TimingChannelPrimitives> CoreSpec for NaiveTimingChannel<T> {
 }
 
 impl<T: TimingChannelPrimitives + Send + Sync> CovertChannel for NaiveTimingChannel<T> {
-    type Handle = NaiveTimingChannelHandle;
+    type CovertChannelHandle = NaiveTimingChannelHandle;
     const BIT_PER_PAGE: usize = 1;
 
-    unsafe fn transmit<'a>(&self, handle: &mut Self::Handle, bits: &mut BitIterator<'a>) {
+    unsafe fn transmit<'a>(
+        &self,
+        handle: &mut Self::CovertChannelHandle,
+        bits: &mut BitIterator<'a>,
+    ) {
         if let Some(b) = bits.next() {
             if b {
                 unsafe { only_reload(handle.addr) };
@@ -116,7 +121,7 @@ impl<T: TimingChannelPrimitives + Send + Sync> CovertChannel for NaiveTimingChan
         }
     }
 
-    unsafe fn receive(&self, handle: &mut Self::Handle) -> Vec<bool> {
+    unsafe fn receive(&self, handle: &mut Self::CovertChannelHandle) -> Vec<bool> {
         let r = unsafe { self.test_impl(handle) };
         match r {
             Err(e) => panic!(),
@@ -127,7 +132,7 @@ impl<T: TimingChannelPrimitives + Send + Sync> CovertChannel for NaiveTimingChan
         }
     }
 
-    unsafe fn ready_page(&mut self, page: *const u8) -> Result<Self::Handle, ()> {
+    unsafe fn ready_page(&mut self, page: *const u8) -> Result<Self::CovertChannelHandle, ()> {
         unsafe { self.calibrate_impl(page) }.map_err(|_| ())
     }
 }

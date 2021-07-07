@@ -21,7 +21,8 @@ use cache_utils::complex_addressing::CacheSlicing;
 use cache_utils::mmap::MMappedMemory;
 use cache_utils::{find_core_per_socket, flush, maccess, noop};
 use covert_channels_evaluation::{BitIterator, CovertChannel};
-use nix::sched::{sched_getaffinity, CpuSet};
+use nix::sched::sched_getaffinity;
+use nix::sched::CpuSet;
 use nix::unistd::Pid;
 use std::collections::HashSet;
 use std::fmt;
@@ -540,10 +541,14 @@ impl<T: TimingChannelPrimitives> MultipleAddrCacheSideChannel for TopologyAwareT
 }
 
 impl<T: TimingChannelPrimitives> CovertChannel for TopologyAwareTimingChannel<T> {
-    type Handle = CovertChannelHandle<TopologyAwareTimingChannel<T>>;
+    type CovertChannelHandle = CovertChannelHandle<TopologyAwareTimingChannel<T>>;
     const BIT_PER_PAGE: usize = 1;
 
-    unsafe fn transmit<'a>(&self, handle: &mut Self::Handle, bits: &mut BitIterator<'a>) {
+    unsafe fn transmit<'a>(
+        &self,
+        handle: &mut Self::CovertChannelHandle,
+        bits: &mut BitIterator<'a>,
+    ) {
         let page = handle.0.addr;
 
         if let Some(b) = bits.next() {
@@ -555,7 +560,7 @@ impl<T: TimingChannelPrimitives> CovertChannel for TopologyAwareTimingChannel<T>
         }
     }
 
-    unsafe fn receive(&self, handle: &mut Self::Handle) -> Vec<bool> {
+    unsafe fn receive(&self, handle: &mut Self::CovertChannelHandle) -> Vec<bool> {
         let r = unsafe { self.test_one_impl(&mut handle.0) };
         match r {
             Err(e) => panic!("{:?}", e),
@@ -567,7 +572,7 @@ impl<T: TimingChannelPrimitives> CovertChannel for TopologyAwareTimingChannel<T>
         }
     }
 
-    unsafe fn ready_page(&mut self, page: *const u8) -> Result<Self::Handle, ()> {
+    unsafe fn ready_page(&mut self, page: *const u8) -> Result<Self::CovertChannelHandle, ()> {
         let vpn: VPN = get_vpn(page);
         // Check if the page has already been readied. If so should error out ?
         if let Some(preferred) = self.preferred_address.get(&vpn) {
@@ -616,7 +621,7 @@ impl<T: TimingChannelPrimitives> CovertChannel for TopologyAwareTimingChannel<T>
             if self.get_slice(addr) == best_slice {
                 self.preferred_address.insert(vpn, addr);
                 // Create the right handle
-                let mut handle = Self::Handle {
+                let mut handle = Self::CovertChannelHandle {
                     0: TopologyAwareTimingChannelHandle {
                         threshold: self
                             .thresholds

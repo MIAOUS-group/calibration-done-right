@@ -42,10 +42,10 @@ pub fn restore_affinity(cpu_set: &CpuSet) {
 }
 
 #[must_use = "This result must be used to restore affinity"]
-pub fn set_affinity(cpu_set: &CpuSet) -> CpuSet {
-    let old = sched_getaffinity(Pid::from_raw(0)).unwrap();
-    sched_setaffinity(Pid::from_raw(0), &cpu_set).unwrap();
-    old
+pub fn set_affinity(cpu_set: &CpuSet) -> Result<CpuSet, nix::Error> {
+    let old = sched_getaffinity(Pid::from_raw(0))?;
+    sched_setaffinity(Pid::from_raw(0), &cpu_set)?;
+    Ok(old)
 }
 
 pub trait SingleAddrCacheSideChannel: CoreSpec + Debug {

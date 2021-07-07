@@ -9,6 +9,6 @@ edition = "2018"
 [dependencies]
 cache_utils = { path = "../cache_utils" }
 cache_side_channel = { path = "../cache_side_channel" }
-nix = "0.18.0"
+nix = "0.20.0"
 covert_channels_evaluation = {path = "../covert_channels_evaluation"}
 basic_timing_cache_channel = { path = "../basic_timing_cache_channel" }

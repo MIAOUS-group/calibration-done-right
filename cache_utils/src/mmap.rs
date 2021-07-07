@@ -89,7 +89,7 @@ impl<T> DerefMut for MMappedMemory<T> {
 
 impl<T> AsRef<[T]> for MMappedMemory<T> {
     fn as_ref(&self) -> &[T] {
-        unimplemented!()
+        self.slice()
     }
 }
 

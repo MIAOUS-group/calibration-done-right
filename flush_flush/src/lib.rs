@@ -7,6 +7,7 @@ use basic_timing_cache_channel::{
     SingleChannel, TimingChannelPrimitives, TopologyAwareTimingChannel,
 };
 
+use cache_side_channel::MultipleAddrCacheSideChannel;
 use cache_utils::calibration::only_flush;
 
 #[derive(Debug)]
@@ -19,5 +20,7 @@ impl TimingChannelPrimitives for FFPrimitives {
 }
 
 pub type FlushAndFlush = TopologyAwareTimingChannel<FFPrimitives>;
+
+pub type FFHandle = <FlushAndFlush as MultipleAddrCacheSideChannel>::Handle;
 
 pub type SingleFlushAndFlush = SingleChannel<FlushAndFlush>;

@@ -1,7 +1,8 @@
 use std::cell::UnsafeCell;
+use std::hint::spin_loop;
 use std::marker::PhantomData;
 use std::ops::{Deref, DerefMut};
-use std::sync::atomic::{spin_loop_hint, AtomicUsize, Ordering};
+use std::sync::atomic::{AtomicUsize, Ordering};
 use std::sync::Arc;
 
 /**
@@ -39,7 +40,7 @@ impl RawTurnLock {
     pub unsafe fn wait(&self, turn: usize) {
         let mut current = self.turn.load(Ordering::Acquire);
         while current < self.num_turns && current != turn {
-            spin_loop_hint();
+            spin_loop();
             current = self.turn.load(Ordering::Acquire);
         }
         if current >= self.num_turns {

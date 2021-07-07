@@ -7,12 +7,12 @@ edition = "2018"
 # See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
 
 [dependencies]
-openssl-sys = "0.9.58"
-openssl = "0.10.30"
+openssl-sys = "0.9.61"
+openssl = "0.10.33"
 cache_utils = { path = "../cache_utils" }
-memmap2 = "0.1.0"
-rand = "0.7.3"
-nix = "0.18.0"
+memmap2 = "0.2.1"
+rand = "0.8.3"
+nix = "0.20.0"
 cache_side_channel = { path = "../cache_side_channel" }
 flush_flush = { path = "../flush_flush" }
 flush_reload = { path = "../flush_reload" }

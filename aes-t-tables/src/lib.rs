@@ -38,7 +38,7 @@ pub unsafe fn attack_t_tables_poc<T: ChannelHandle>(
     parameters: AESTTableParams,
     name: &str,
 ) {
-    let old_affinity = set_affinity(&side_channel.main_core());
+    let old_affinity = set_affinity(&side_channel.main_core()).unwrap();
 
 
     // Possible enhancements : use ability to monitor several addresses simultaneously.
