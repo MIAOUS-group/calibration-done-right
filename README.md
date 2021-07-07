@@ -5,7 +5,7 @@ The code base is written entirely in rust.
 
 There are three crates with binaries providing results :
 - **aes-t-tables** runs the T-table attack using the 3 side channels
-- **cache_utils** `two_thread_cal` runs a full calibration on all core pair for Flush+Flush
+- **cache_utils** `two_thread_cal` runs a full calibration on all core pairs for Flush+Flush
 and analyses the results to provide error rate predictions in various attacker models
 - **covert_channel_beanchmark** is the crate that runs covert channel benchmarks on the various covert channels
 
